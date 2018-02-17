@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -27,68 +28,111 @@ public class NotificationsUIController implements Initializable, Notifiable {
 
     @FXML
     private TextArea textArea;
-    
+
+    @FXML
+    private Button threadOne;
+    @FXML
+    private Button threadTwo;
+    @FXML
+    private Button threadThree;
+
     private Task1 task1;
     private Task2 task2;
     private Task3 task3;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-    
+
     public void start(Stage stage) {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                if (task1 != null) task1.end();
-                if (task2 != null) task2.end();
-                if (task3 != null) task3.end();
+                if (task1 != null) {
+                    task1.end();
+                }
+                if (task2 != null) {
+                    task2.end();
+                }
+                if (task3 != null) {
+                    task3.end();
+                }
             }
         });
     }
-    
-    @FXML
-    public void startTask1(ActionEvent event) {
-        System.out.println("start task 1");
-        if (task1 == null) {
-            task1 = new Task1(2147483647, 1000000);
-            task1.setNotificationTarget(this);
-            task1.start();
-        }
-    }
-    
+
     @Override
     public void notify(String message) {
         if (message.equals("Task1 done.")) {
             task1 = null;
+            threadOne.setText("Start Task 1");
+            System.out.println("Ending Task 1");
         }
         textArea.appendText(message + "\n");
     }
-    
+
     @FXML
-    public void startTask2(ActionEvent event) {
-        System.out.println("start task 2");
+    public void pressTask1(ActionEvent event) {
+        if (task1 == null) {
+            System.out.println("Starting Task 1");
+            task1 = new Task1(2147483647, 1000000);
+            task1.setNotificationTarget(this);
+            task1.start();
+            threadOne.setText("End Task 1");
+        } else if (task1 != null && task1.isAlive()) {
+            System.out.println("Ending Task 1");
+            task1.end();
+            task1 = null;
+            threadOne.setText("Start Task 1");
+        }
+
+    }
+
+    @FXML
+    public void pressTask2(ActionEvent event) {
         if (task2 == null) {
+            System.out.println("Starting Task 2");
             task2 = new Task2(2147483647, 1000000);
             task2.setOnNotification((String message) -> {
                 textArea.appendText(message + "\n");
+                if (message.equals("Task2 done.")) {
+                    task2 = null;
+                    threadTwo.setText("Start Task 2");
+                    System.out.println("Ending task 2");
+                }
             });
-            
+            threadTwo.setText("End Task 2");
             task2.start();
-        }        
+        } else if (task2 != null && task2.isAlive()) {
+            System.out.println("Ending task 2");
+            task2.end();
+            task2 = null;
+            threadTwo.setText("Start Task 2");
+        }
     }
-    
+
     @FXML
-    public void startTask3(ActionEvent event) {
-        System.out.println("start task 3");
+    public void pressTask3(ActionEvent event) {
         if (task3 == null) {
+            System.out.println("Starting Task 3");
             task3 = new Task3(2147483647, 1000000);
             // this uses a property change listener to get messages
             task3.addPropertyChangeListener((PropertyChangeEvent evt) -> {
-                textArea.appendText((String)evt.getNewValue() + "\n");
+                textArea.appendText((String) evt.getNewValue() + "\n");
+                if (((String) evt.getNewValue()).equals("Task3 done.")) {
+                    task3 = null;
+                    threadThree.setText("Start Task 3");
+                    System.out.println("Ending Task 3");
+                }
             });
-            
             task3.start();
+            threadThree.setText("End Task 3");
+        } else if (task3 != null && task3.isAlive()) {
+            System.out.println("Ending Task 3");
+            task3.end();
+            task3 = null;
+            threadThree.setText("Start Task 3");
         }
-    } 
+    }
+
 }
