@@ -1,0 +1,24 @@
+﻿First commit
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   NotifcationExamples/build.xml
+#	new file:   NotifcationExamples/manifest.mf
+#	new file:   NotifcationExamples/nbproject/build-impl.xml
+#	new file:   NotifcationExamples/nbproject/configs/Run_as_WebStart.properties
+#	new file:   NotifcationExamples/nbproject/configs/Run_in_Browser.properties
+#	new file:   NotifcationExamples/nbproject/genfiles.properties
+#	new file:   NotifcationExamples/nbproject/jfx-impl.xml
+#	new file:   NotifcationExamples/nbproject/jfx-impl_backup.xml
+#
+# Untracked files:
+#	.gitignore
+#	NotifcationExamples/nbproject/UPDATED.TXT
+#	NotifcationExamples/nbproject/project.properties
+#	NotifcationExamples/nbproject/project.xml
+#	NotifcationExamples/src/
+#
+
